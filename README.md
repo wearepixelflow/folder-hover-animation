@@ -8,6 +8,21 @@
 
 <div align="center">
 
+## 👀 Preview
+<sub><b>Scroll down to see the live animation preview.</b></sub>
+
+<img src="https://github.com/user-attachments/assets/26d47abc-cfed-4b5d-b5ce-aa5ed5002a32"
+     alt="Folder Hover Animation Preview"
+     width="320">
+
+<br>
+
+
+
+</div>
+
+<div align="center">
+
 # 📂 Folder Hover
 
 **A meticulously crafted folder-open animation, built in pure CSS.**
@@ -127,20 +142,6 @@ A few KB of CSS. No render-blocking scripts, no layout shift.
 
 
 
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/wearepixelflow/folder-hover-animation.git
-cd folder-hover-animation
-```
-
-Then simply open `index.html` in your browser — no build tools, no bundlers, no setup.
-
-To use it inside an existing project, copy `style.css` and the folder markup from `index.html` into your codebase.
-
-<br />
 
 ## Usage
 
