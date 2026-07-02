@@ -1,3 +1,11 @@
+
+<p align="center">
+  <img src="banner1.png" alt="PixelFlow Banner" width="100%">
+</p>
+
+
+
+
 <div align="center">
 
 # 📂 Folder Hover
@@ -47,11 +55,22 @@ Drop it into a file manager UI, a dashboard, a portfolio, or a landing page — 
 
 ## Live Demo
 
+
 <div align="center">
 
-[![Open Live Demo](https://img.shields.io/badge/Open_Live_Demo-000000?style=for-the-badge&logo=googlechrome&logoColor=white)](https://wearepixelflow.github.io/folder-hover-animation/)
+<a href="https://wearepixelflow.github.io/folder-hover-animation/" target="_blank">
+  <img src="https://img.shields.io/badge/🚀_Open_Live_Demo-000000?style=for-the-badge" alt="Open Live Demo">
+</a>
 
-*Hosted via GitHub Pages — hover the folder to see it in action.*
+<br><br>
+
+<a href="https://wearepixelflow.github.io/folder-hover-animation/" target="_blank">
+  <img src="folder-hover.preview.gif" alt="Folder Hover Animation Demo" width="750">
+</a>
+
+<br>
+
+<sub><b>Click the preview above to experience the animation live.</b></sub>
 
 </div>
 
