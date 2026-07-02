@@ -1,11 +1,3 @@
-
-<p align="center">
-  <img src="banner1.png" alt="PixelFlow Banner" width="100%">
-</p>
-
-
-
-
 <div align="center">
 
 ## 👀 Preview
