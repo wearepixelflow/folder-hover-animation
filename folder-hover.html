@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Structure Folder Card</title>
+<style>
+  /*
+   1. CUSTOM PROPERTIES — tweak these to re-theme / re-time the component
+   */
+:root {
+  /* Colors */
+  --folder-bg: #ffffff;
+  --folder-border: #e5e7eb;         /* gray-200 */
+  --folder-text: #1f2937;           /* gray-800 */
+  --folder-text-muted: #374151;     /* gray-700 */
+  --folder-shadow-color: rgba(0, 0, 0, 0.12);
+  --folder-shadow-color-hover: rgba(0, 0, 0, 0.18);
+
+  /* Spacing */
+  --folder-padding-y: 0.5rem;
+  --folder-padding-x: 1rem;
+  --folder-gap: 1rem;
+  --dropdown-width: 16rem;          /* w-64 */
+  --dropdown-padding: 1rem;
+  --dropdown-item-gap: 0.25rem;
+
+  /* Radius */
+  --folder-radius: 0.5rem;          /* rounded-md */
+  --dropdown-radius: 0.5rem;
+
+  /* Animation */
+  --transition-duration: 380ms;
+  --transition-easing: cubic-bezier(0.16, 1, 0.3, 1);
+  --dropdown-offset: 0.5rem;        /* mt-2 */
+  --dropdown-travel: 10px;          /* translateY distance for the animation */
+}
+
+/* 
+   2. RESET / BASE
+   */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  background: #f3f4f6;
+  color: var(--folder-text);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/*
+   3. FOLDER CARD — positioning context
+   */
+.folder-card {
+  position: relative;   /* anchors the absolutely-positioned dropdown */
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* Remove default focus outline; we style focus explicitly below */
+.folder-card:focus {
+  outline: none;
+}
+
+/* Accessible focus ring for keyboard users */
+.folder-card:focus-visible .folder-card__trigger {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4),
+    0 4px 14px var(--folder-shadow-color);
+}
+
+/*
+   4. TRIGGER — the visible white pill/button with icon + label
+   */
+.folder-card__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--folder-gap);
+
+  padding: var(--folder-padding-y) var(--folder-padding-x);
+  background: var(--folder-bg);
+  border-radius: var(--folder-radius);
+  box-shadow: 0 4px 14px var(--folder-shadow-color);
+
+  cursor: pointer;
+  user-select: none;
+
+  /* Smooth shadow / lift transition on hover */
+  transition: box-shadow var(--transition-duration) var(--transition-easing),
+    transform var(--transition-duration) var(--transition-easing);
+}
+
+/* Slight lift + deeper shadow when the card group is hovered/focused */
+.folder-card:hover .folder-card__trigger,
+.folder-card:focus-within .folder-card__trigger {
+  box-shadow: 0 8px 22px var(--folder-shadow-color-hover);
+  transform: translateY(-1px);
+}
+
+.folder-card__icon {
+  flex-shrink: 0;
+  display: block;
+}
+
+.folder-card__label {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--folder-text);
+  white-space: nowrap;
+}
+
+/* 
+   5. DROPDOWN — hidden panel that reveals the file tree
+    */
+.folder-card__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--dropdown-offset);
+  width: var(--dropdown-width);
+  max-width: 90vw;
+
+  background: var(--folder-bg);
+  border: 1px solid var(--folder-border);
+  border-radius: var(--dropdown-radius);
+  box-shadow: 0 10px 30px var(--folder-shadow-color-hover);
+
+  /* Hidden state: invisible, shifted up slightly, non-interactive */
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--dropdown-travel)));
+  pointer-events: none;
+  visibility: hidden;
+
+  /* Fade + translate + shadow all animate smoothly together */
+  transition:
+    opacity var(--transition-duration) var(--transition-easing),
+    transform var(--transition-duration) var(--transition-easing),
+    visibility 0s linear var(--transition-duration);
+
+  z-index: 20;
+}
+
+/* Reveal on hover of the whole card, or keyboard focus within it */
+.folder-card:hover .folder-card__dropdown,
+.folder-card:focus-within .folder-card__dropdown,
+.folder-card:focus .folder-card__dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+  transition:
+    opacity var(--transition-duration) var(--transition-easing),
+    transform var(--transition-duration) var(--transition-easing),
+    visibility 0s linear 0s;
+}
+
+/* 
+   6. FILE TREE LIST
+    */
+.folder-card__list {
+  list-style: none;
+  margin: 0;
+  padding: var(--dropdown-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--dropdown-item-gap);
+}
+
+.tree-item {
+  padding: 0.25rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--folder-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Indentation levels mimic nested folder structure */
+.tree-item--depth-0 { padding-left: 0; }
+.tree-item--depth-1 { padding-left: 1rem; }
+.tree-item--depth-2 { padding-left: 2rem; }
+
+.tree-item--folder {
+  font-weight: 600;
+  color: var(--folder-text);
+}
+
+.tree-item--file {
+  font-weight: 400;
+}
+
+/* 
+   7. RESPONSIVENESS
+  */
+@media (max-width: 480px) {
+  :root {
+    --dropdown-width: 100%;
+  }
+
+  .folder-card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .folder-card__trigger {
+    width: 100%;
+  }
+
+  .folder-card__dropdown {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+}
+
+/* 
+   8. REDUCED MOTION — respect user preference
+  */
+
+@media (prefers-reduced-motion: reduce) {
+  .folder-card__trigger,
+  .folder-card__dropdown {
+    transition-duration: 1ms;
+  }
+}
+</style>
+</head>
+<body>
+
+  <main class="page">
+
+    <!-- Folder card component -->
+    <div class="folder-card" tabindex="0">
+
+      <!-- Trigger: visible folder button -->
+      <div class="folder-card__trigger">
+        <svg
+          class="folder-card__icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 18 14"
+          height="25"
+          width="25"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="#FFA000"
+            d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+          ></path>
+          <path
+            fill="#FFCA28"
+            d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+          ></path>
+        </svg>
+        <p class="folder-card__label">Project Structure</p>
+      </div>
+
+      <!-- Dropdown panel: hidden until hover/focus -->
+      <div class="folder-card__dropdown" role="group" aria-label="Project structure file tree">
+        <ul class="folder-card__list">
+          <li class="tree-item tree-item--folder tree-item--depth-0">📁 src</li>
+          <li class="tree-item tree-item--folder tree-item--depth-1">📁 app</li>
+          <li class="tree-item tree-item--file tree-item--depth-2">📄 layout.js</li>
+          <li class="tree-item tree-item--file tree-item--depth-2">📄 page.js</li>
+          <li class="tree-item tree-item--folder tree-item--depth-1">📁 components</li>
+          <li class="tree-item tree-item--file tree-item--depth-2">📄 header.js</li>
+          <li class="tree-item tree-item--file tree-item--depth-2">📄 footer.js</li>
+          <li class="tree-item tree-item--folder tree-item--depth-1">📁 styles</li>
+          <li class="tree-item tree-item--file tree-item--depth-2">📄 globals.css</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
